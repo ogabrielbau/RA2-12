@@ -11,7 +11,9 @@ Professor: **Frank Coelho de Alcantara**
 | Nome | GitHub |
 |------|--------|
 | Gabriel Baú | https://github.com/ogabrielbau |
-
+| Bernardo Czizyk | https://github.com/BBernardoC |
+| Mateus Filipe | https://github.com/MateusMonfort |
+| Gregory Keune | https://github.com/gregorykeune |
 ---
 
 ## Link para Execução Online
@@ -47,4 +49,23 @@ O estado atual do inventário **persiste entre execuções**, pois é salvo em a
 ---
 
 # 3. Estrutura do Projeto
+/
+├── Inventario.hs # Código fonte principal
+├── Inventario.dat # Estado persistido do inventário
+├── Auditoria.log # Log de auditoria append-only
+└── README.md
+
+# 4. Tipos de Dados
+
+O sistema define:
+
+- `Item`  
+- `Inventario = Map String Item`
+- `AcaoLog = AddItem | RemoveItem | UpdateItem | QueryFail`
+- `StatusLog = Sucesso | Falha String`
+- `LogEntry` (timestamp, ação, detalhes, status)
+
+Todos derivam `Show` e `Read`, como exigido, possibilitando serialização e desserialização.
+
+---
 
