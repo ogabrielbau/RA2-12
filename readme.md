@@ -152,10 +152,6 @@ exit
 
  # 8. Cenários de Teste (Obrigatórios – RA2 seção 4.1)
 
-A seguir estão os testes realizados conforme especificação.
-
----
-
 ## ✅ Cenário 1: Persistência de Estado (Sucesso)
 
 1. Iniciar o programa sem arquivos.
@@ -259,6 +255,7 @@ O sistema atende integralmente aos requisitos do RA2:
 ✔ README completo conforme especificado  
 
 ---
+
 
 
 
