@@ -161,3 +161,149 @@ gerarRelatorio logs
          , "Total de operacoes: " ++ show (length historico)
          , ""
          ] ++ map formatarLog historico ++ [""]
+
+-- Persistencia
+salvarInventario :: Inventario -> IO ()
+carregarInventario :: IO Inventario
+registrarLog :: LogEntry -> IO ()
+carregarLogs :: IO [LogEntry]
+
+salvarInventario inventario = writeFile "Inventario.dat" (show inventario)
+
+carregarInventario =
+  catch
+    (do
+        conteudo <- readFile "Inventario.dat"
+        let inv = read conteudo
+        inv `seq` return inv)
+    (\(_ :: IOException) -> return Map.empty)
+
+registrarLog logEntry = appendFile "Auditoria.log" (show logEntry ++ "\n")
+
+carregarLogs =
+  catch
+    (do
+        conteudo <- readFile "Auditoria.log"
+        let logs = map read (lines conteudo)
+        length logs `seq` return logs)
+    (\(_ :: IOException) -> return [])
+--Funcao de suporte
+splitOn :: Char -> String -> [String]
+splitOn delim str = case break (== delim) str of
+  (a, [])     -> [a]
+  (a, _:rest) -> a : splitOn delim rest
+
+-- Loop principal com logs de falha automaticos
+mainLoop :: Inventario -> IO ()
+mainLoop inv = do
+  putStrLn "\nComandos disponiveis:"
+  putStrLn " add,<id>,<nome>,<quantidade>,<categoria>"
+  putStrLn " remove,<id>,<quantidade>"
+  putStrLn " update,<id>,<nova_quantidade>"
+  putStrLn " list"
+  putStrLn " report"
+  putStrLn " exit"
+  putStr "> "
+  hFlush stdout
+  comando <- getLine
+  let partes = splitOn ',' comando
+  case partes of
+    ["add", iid, nm, qtd, cat] -> do
+      case reads qtd :: [(Int, String)] of
+        [(n, "")] -> do
+          time <- getCurrentTime
+          let item = Item iid nm n cat
+          case addItem time item inv of
+            Left err -> do
+              let failLog = queryFail time err Add
+              registrarLog failLog
+              putStrLn err
+              mainLoop inv
+            Right (novoInv, logEntry) -> do
+              salvarInventario novoInv
+              registrarLog logEntry
+              putStrLn "Item adicionado com sucesso!"
+              mainLoop novoInv
+        _ -> do
+          time <- getCurrentTime
+          let failLog = queryFail time "Erro: quantidade invalida" Add
+          registrarLog failLog
+          putStrLn "Erro: quantidade deve ser um numero inteiro."
+          mainLoop inv
+
+    ["remove", iid, qtd] -> do
+      case reads qtd :: [(Int, String)] of
+        [(n, "")] -> do
+          time <- getCurrentTime
+          case removeItem time iid n inv of
+            Left err -> do
+              let failLog = queryFail time err Remove
+              registrarLog failLog
+              putStrLn err
+              mainLoop inv
+            Right (novoInv, logEntry) -> do
+              salvarInventario novoInv
+              registrarLog logEntry
+              putStrLn "Quantidade removida com sucesso!"
+              mainLoop novoInv
+        _ -> do
+          time <- getCurrentTime
+          let failLog = queryFail time "Erro: quantidade invalida" Remove
+          registrarLog failLog
+          putStrLn "Erro: quantidade deve ser um numero inteiro."
+          mainLoop inv
+
+    ["update", iid, qtd] -> do
+      case reads qtd :: [(Int, String)] of
+        [(n, "")] -> do
+          time <- getCurrentTime
+          case updateQty time iid n inv of
+            Left err -> do
+              let failLog = queryFail time err Update
+              registrarLog failLog
+              putStrLn err
+              mainLoop inv
+            Right (novoInv, logEntry) -> do
+              salvarInventario novoInv
+              registrarLog logEntry
+              putStrLn "Item atualizado!"
+              mainLoop novoInv
+        _ -> do
+          time <- getCurrentTime
+          let failLog = queryFail time "Erro: nova quantidade invalida" Update
+          registrarLog failLog
+          putStrLn "Erro: nova quantidade deve ser um numero inteiro."
+          mainLoop inv
+
+    ["list"] -> do
+      if Map.null inv
+        then putStrLn "\n=== Inventario Atual ===\nInventario vazio."
+        else do
+          putStrLn "\n=== Inventario Atual ==="
+          mapM_ (putStrLn . formatarItem) (Map.elems inv)
+      mainLoop inv
+
+
+
+    ["report"] -> do
+      logs <- carregarLogs
+      putStrLn $ gerarRelatorio logs
+      mainLoop inv
+
+    ["exit"] -> do
+      putStrLn "Saindo e salvando..."
+      salvarInventario inv
+      putStrLn "Ate logo!"
+
+    _ -> do
+      time <- getCurrentTime
+      let failLog = queryFail time ("Comando invalido: " ++ comando) QueryFail
+      registrarLog failLog
+      putStrLn "Comando invalido! Use virgulas para separar os campos."
+      mainLoop inv
+main :: IO ()
+main = do
+  inventario <- carregarInventario
+  _ <- carregarLogs
+  putStrLn "Sistema iniciado com sucesso!"
+  mainLoop inventario
