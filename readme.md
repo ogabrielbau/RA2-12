@@ -233,7 +233,7 @@ Todos os tipos necessários implementam:
 
 ```haskell
 deriving (Show, Read)
-
+```
 Isso permite:
 
     Serialização automática em arquivos
@@ -241,7 +241,8 @@ Isso permite:
     Desserialização segura
 
     Persistência correta do sistema
-```
+
+
 
 
 
