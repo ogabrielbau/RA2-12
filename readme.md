@@ -19,8 +19,6 @@ Professor: **Frank Coelho de Alcantara**
 ## Link para Execução Online
 GDB Online: https://onlinegdb.com/gQGXB8E5t
 
-## Especificação Técnica do Sistema
-
 # Especificação Técnica do Sistema
 
 # 1. Arquitetura do Sistema
@@ -356,14 +354,15 @@ Para executar o sistema diretamente no navegador:
 2. Clique no botão **Run**.
 3. Utilize o terminal integrado para enviar os comandos no formato:
 
-    add,<id>,<nome>,<quantidade>,<categoria>
-    remove,<id>,<quantidade>
-    update,<id>,<nova_quantidade>
-    list
-    report
+    add,\<id\>,\<nome\>,\<quantidade\>,\<categoria\>  
+    remove,\<id\>,\<quantidade\>  
+    update,\<id\>,\<nova_quantidade\>  
+    list  
+    report  
     exit
     
 O sistema funcionará exatamente como em um ambiente local, incluindo persistência e geração de logs.
+
 
 
 
