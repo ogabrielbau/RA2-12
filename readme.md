@@ -17,7 +17,7 @@ Professor: **Frank Coelho de Alcantara**
 ---
 
 ## Link para Execução Online
-GDB Online: https://onlinegdb.com/VWnmMKrUlA
+GDB Online: https://onlinegdb.com/gQGXB8E5t
 
 ## Especificação Técnica do Sistema
 
@@ -381,6 +381,7 @@ Para executar o sistema diretamente no navegador:
     exit
     
 O sistema funcionará exatamente como em um ambiente local, incluindo persistência e geração de logs.
+
 
 
 
