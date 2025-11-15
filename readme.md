@@ -242,7 +242,32 @@ Isso permite:
 
     Persistência correta do sistema
 
+---
 
+### 7. Dados Mínimos para Teste
+
+Para garantir o funcionamento correto das funções de relatório, auditoria e persistência, foram adicionados **pelo menos 10 itens distintos** ao inventário, conforme solicitado na especificação da atividade RA2.
+
+#### Exemplo de inserções mínimas:
+
+    add,001,Teclado,15,Informatica
+    add,002,Mouse,20,Informatica
+    add,003,Monitor,8,Informatica
+    add,004,Notebook,5,Eletronicos
+    add,005,Impressora,3,Escritorio
+    add,006,Cadeira,12,Movel
+    add,007,Mesa,6,Movel
+    add,008,Tablet,10,Eletronicos
+    add,009,Smartphone,25,Eletronicos
+    add,010,Fone,30,Acessorios
+
+Esses dados foram utilizados para validar:
+
+- Persistência entre execuções  
+- Geração do relatório completo  
+- Funcionamento do cálculo de item mais movimentado  
+- Registros de auditoria  
+- Tratamento de erros e entradas inválidas  
 
 
 
