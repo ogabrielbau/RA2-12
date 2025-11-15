@@ -95,8 +95,9 @@ Remove quantidade do item. Remove completamente caso a quantidade chegue a zero.
 **updateQty**  
 Atualiza a quantidade do item. Se a nova quantidade for igual a 0, o item é removido.
 
-**queryFail** 
+**queryFail**  
 Caso o usuário realize um comando invalido, QueryFail salva nos logs a mensagem de erro.
+
 ---
 
 #### Funções de Análise e Relatório
@@ -363,6 +364,7 @@ Para executar o sistema diretamente no navegador:
     exit
     
 O sistema funcionará exatamente como em um ambiente local, incluindo persistência e geração de logs.
+
 
 
 
