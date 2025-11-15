@@ -131,6 +131,48 @@ Onde:
 
 type ResultadoOperacao = (Inventario, LogEntry)
 
+### 4. Sistema de Persistência
+
+#### Arquivos do Sistema
+
+**Inventario.dat**  
+Armazena o estado atual do inventário.  
+É sobrescrito a cada operação bem-sucedida.
+
+**Auditoria.log**  
+Armazena todos os registros de auditoria, incluindo sucessos e falhas.  
+Funciona em modo **append-only**.
+
+---
+
+#### Funções de I/O implementadas
+
+- `salvarInventario`  
+- `carregarInventario`  
+- `registrarLog`  
+- `carregarLogs`
+
+Essas funções realizam toda a parte impura (IO) do sistema, mantendo a separação da lógica pura.
+
+---
+
+#### Tratamento de Exceções
+
+A leitura utiliza `catch` para evitar crash na primeira execução, conforme solicitado na especificação:
+
+```haskell
+catch
+  (do conteudo <- readFile "Inventario.dat"
+      let inv = read conteudo
+      inv `seq` return inv)
+  (\(_ :: IOException) -> return Map.empty)
+
+Isso garante que, se os arquivos não existirem, o sistema inicia com um inventário vazio sem falhar.
+
+
+---
+
+
 
 
 
