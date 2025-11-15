@@ -281,9 +281,6 @@ Esses dados foram utilizados para validar:
 
 1. Executar o sistema sem arquivos existentes.
 2. Inserir 3 itens:
-
-<img src="teste1.1.jpg" width="300">
-
 3. Encerrar o programa com:
 
 exit
@@ -302,6 +299,16 @@ Os três itens devem aparecer corretamente após a reinicialização, comprovand
 - Os dados foram serializados usando `Show`/`Read`.
 - A função `carregarInventario` está funcionando corretamente.
 - Não houve crashes por ausência de arquivos.
+
+Evidencias:
+
+<img src="teste1.1.jpg" width="300">
+
+
+<img src="teste1.2.jpg" width="300">
+
+
+<img src="teste1.3.jpg" width="300">
 
 ---
 
@@ -330,6 +337,13 @@ list
 - A quantidade permanece **10**.
 - Uma entrada com `Falha` é registrada em `Auditoria.log`.
 
+Evidencias:
+
+<img src="teste2.1.jpg" width="300">
+
+
+<img src="teste2.2.jpg" width="300">
+
 ---
 
 #### 🧪 Cenário 3 — Geração do Relatório
@@ -357,6 +371,12 @@ Confirmando assim que:
 - `logsDeErro` identifica todas as falhas  
 - `historicoPorItem` lista todas as operações relevantes  
 - `gerarRelatorio` consolida tudo no formato esperado
+
+Evidencia:
+
+Evidencias:
+
+<img src="teste3.jpg" width="300">
 
 ---
 
@@ -394,6 +414,7 @@ O sistema atende **integralmente** aos requisitos da Atividade Avaliativa RA2, d
 - Conformidade total com as instruções fornecidas pelo professor  
 
 O projeto está coerente, funcional, modular e pronto para avaliação.
+
 
 
 
